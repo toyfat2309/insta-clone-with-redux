@@ -2,8 +2,13 @@ import { Avatar, Box, Grid, Typography } from '@mui/material'
 import React from 'react'
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { NavLink } from 'react-router-dom'
+import { viewFollowing, viewFollowers } from '../userProfileSlice';
+import { useDispatch } from 'react-redux'
 
 const SmUserDetails = () => {
+
+    const dispatch = useDispatch()
+
     return (
         <>
             <Grid container sx={{ justifyContent: "center", alignItems: 'center', pl: { sm: 3, lg: 0 }, pr: { sm: 3, lg: 0 } }}>
@@ -22,11 +27,11 @@ const SmUserDetails = () => {
                                     <b style={{ fontSize: '16px', marginRight: '5px' }}>1</b>
                                     <span style={{ color: "#262626", fontSize: '16px' }}>posts</span>
                                 </Box>
-                                <Box sx={{ display: "flex", width: '140px', cursor: 'pointer' }}>
+                                <Box sx={{ display: "flex", width: '140px', cursor: 'pointer' }} onClick = { () => dispatch(viewFollowers({Boolean:true,option:'Followers'}))}>
                                     <b style={{ fontSize: '16px', marginRight: '5px' }}>1</b>
-                                    <span style={{ color: "#262626", fontSize: '16px' }}>followers</span>
+                                    <span style={{ color: "#262626", fontSize: '16px' }} >followers</span>
                                 </Box>
-                                <Box sx={{ display: "flex", width: '100px', cursor: 'pointer' }}>
+                                <Box sx={{ display: "flex", width: '100px', cursor: 'pointer' }} onClick = { () => dispatch(viewFollowing({Boolean:true,option:'Following'}))}>
                                     <b style={{ fontSize: '16px', marginRight: '5px' }}>1</b>
                                     <span style={{ color: "#262626", fontSize: '16px' }}>following</span>
                                 </Box>

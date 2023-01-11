@@ -35,6 +35,7 @@ const Signup = () => {
             password: '',
         },
         onSubmit: (values) => {
+            console.log(values);
             setIsClicked(true)
            axios.post(url,values).then((result)=>{
                //setstatus(result.data.status)

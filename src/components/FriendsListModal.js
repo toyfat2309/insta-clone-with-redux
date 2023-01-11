@@ -1,6 +1,6 @@
 import{ React, useRef } from 'react'
 import Modal from '@mui/material/Modal';
-import { Card, CardHeader, CardContent, Box, Skeleton, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { friends } from '../features/userprofile/userProfileSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { viewFollowers, viewFollwing } from '../features/userprofile/userProfileSlice'
@@ -8,6 +8,7 @@ import BottomNavBar from './BottomNavBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { NavLink } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import FriendsSkeleton from './FriendsSkeleton';
 
 
 const style = {
@@ -35,14 +36,6 @@ const FriendsListModal = () => {
         
     }
 
-    const loadingArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    const loading = loadingArray.map((num,i) => (<Card sx={{ width: '100%' }} key={i}><CardHeader
-        avatar={<Skeleton animation="wave" variant="circular" width={40} height={40} />}
-        action={null}
-        title={<Skeleton animation="wave" height={10} width="80%" style={{ marginBottom: 6 }} />}
-        subheader={<Skeleton animation="wave" height={10} width="40%" />}
-    />
-    </Card>))
 
 
     return (
@@ -67,14 +60,14 @@ const FriendsListModal = () => {
                                         <NavLink style={{ textDecoration: 'none', color: 'black', fontSize: 9 }} to=""></NavLink>
                                     </Grid>
                                 </Grid>
-                                {loading}
+                                <FriendsSkeleton />
                                 {btNav}
                             </Box>) : 
                             (
                                 <Box sx={{height:400 , overflowY:'scroll'}}>
                                     <div >
                                     <Typography variant="h6" color="initial" sx={{fontWeight:600,width:'100%',display:'flex',justifyContent:'center',mt:2}}>{modalState.options}</Typography>
-                                    {loading}
+                                    <FriendsSkeleton />
                                     </div>
                                 </Box>
                             )

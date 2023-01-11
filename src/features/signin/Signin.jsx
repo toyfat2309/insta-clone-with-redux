@@ -10,10 +10,12 @@ import Footer from '../../components/Footer';
 import axios from 'axios'
 import { useFormik } from 'formik';
 import * as yup from 'yup'
-import { NavLink } from 'react-router-dom'
+import { NavLink,useNavigate } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Signin = () => {
+
+    const navigate = useNavigate()
 
     const [error, setError] = useState('')
     const [isClicked, setIsClicked] = useState(false)
@@ -22,7 +24,7 @@ const Signin = () => {
 
     }, [isClicked])
 
-    const url = `${process.env.REACT_APP_BASE_URL}users/login`
+    const url = 'http://localhost:4005/users/login'
 
     const formik = useFormik({
         initialValues: {
@@ -37,7 +39,7 @@ const Signin = () => {
                     localStorage.token = result.data.token
                     // setUserName(result.data.user.username)
                     setTimeout(() => {
-                        //navigate('/home')
+                        navigate('/feeds')
                     }, 3000)
 
                 } else {

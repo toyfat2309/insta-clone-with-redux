@@ -6,19 +6,23 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { setImageState } from './postUploadSlice'
+import { userDetails } from '../homepage/homePageSlice';
+import { newPost } from './postUploadSlice';
 
 
 const SelectImage = () => {
 
     const selectImageRef = useRef(); // useRef to pick image file
     const [postImage, setPostImage] = useState(null); // state of the image after uploading to base64
-    const [postCaption, setpostCaption] = useState(''); // caption of post
+    const [caption, setpostCaption] = useState(''); // caption of post
     const [objectFit, setObjectFit] = useState('cover'); // image size 
     const [anchorEl, setAnchorEl] = useState(null); // state for changing image size from 1:1 / objectFit
     const open = Boolean(anchorEl);
 
-    const dispatch = useDispatch()
+    const currentUserDetails = useSelector(userDetails)
+    const dispatch = useDispatch();
 
+    // function to pick image from device
     const pickFile = (e) => {
         const file = e.target.files[0]; // image file to send to backend
         const reader = new FileReader(); 
@@ -28,6 +32,15 @@ const SelectImage = () => {
             const result = reader.result; // base 64 of the image 
             setPostImage(result);
         };
+    };
+
+    // function to create new post
+    const createNewPost = async() => {
+        const date = new Date();
+        const isoDate = date.toISOString();
+        const uniqueId = currentUserDetails._id
+        const details = { postImage, caption, isoDate, objectFit,uniqueId }
+        dispatch(newPost(details))
     };
 
     const handleClick = (event) => {
@@ -86,7 +99,7 @@ const SelectImage = () => {
                                     </Box>
                                     <Box sx={{ display: 'flex', p: '10px' }}>
                                         <TextField multiline row={1} maxRows={1} size="small" sx={{ zIndex: 1, width: '80%' }} onChange={(e) => setpostCaption(e.target.value)} />
-                                        <Button variant="contained" size="small" sx={{ width: '20%', ml: 1, zIndex: 1, height: '40px' }} >Post</Button>
+                                        <Button variant="contained" size="small" sx={{ width: '20%', ml: 1, zIndex: 1, height: '40px' }} onClick={()=>createNewPost()} >Post</Button>
                                     </Box>
                                 </Box>
                             ) :

@@ -8,6 +8,7 @@ import ViewComments from './features/viewcomments/ViewComments';
 import ActiveUserProfile from './features/userprofile/ActiveUserProfile';
 import Explore from './features/explore/Explore';
 import EditProfile from './features/updateprofile/EditProfile';
+import AllFriendSuggestion from './features/friendsuggestion/AllFriendSuggestion';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/signup'  element={ <Signup />}/>
         <Route path='/explore'  element={ <Explore />}/>
         <Route path='/editprofile'  element={ <EditProfile />}/>
+        <Route path='/friendsuggestion'  element={ <AllFriendSuggestion />}/>
       </Routes>
     </>
   );

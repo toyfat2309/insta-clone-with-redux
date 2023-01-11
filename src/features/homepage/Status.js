@@ -1,8 +1,14 @@
 import React from 'react'
 import { Avatar, Box } from '@mui/material'
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import { userDetails } from './homePageSlice';
+import { useSelector } from 'react-redux';
 
 const Status = () => {
+
+    const LoggedInUserDetails = useSelector(userDetails);
+
+
     return (
         <>
             <Box sx={{ position: 'relative', pt: '10px', pb: '10px', border: 1, borderColor: 'rgb(197,197,197)', borderRadius: { sm: '10px' }, mt: { xs: 0, sm: 3 }, mb: { xs: 0, sm: 2 }, }}  >
@@ -14,7 +20,7 @@ const Status = () => {
                         </div>
                         <div style={{ display: 'flex', width: '66px', justifyContent: 'center', height: '30px', alignItems: 'center' }}>
                             <b style={{ display: 'flex', justifyContent: 'center', fontSize: '11px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: '', width: "100%", height: '16px', fontWeight: 500 }}>
-                                Toyfat09
+                               {LoggedInUserDetails.username}
                             </b>
                         </div>
                     </Box>

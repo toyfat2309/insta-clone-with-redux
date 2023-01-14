@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { history } from '../..'
+
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:4005',
@@ -12,9 +14,20 @@ const baseQuery = fetchBaseQuery({
     }
 })
 
+const baseQueryWithAuth = async(args, api, extraOptions) => {
+    let result = await baseQuery(args, api, extraOptions)
+    
+    if (result?.error?.status === 401) {
+        localStorage.removeItem('token');
+        history.push('/');
+        window.location.reload();
+    }
+    return result
+}
+
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: baseQuery,
+    baseQuery: baseQueryWithAuth,
     tagTypes: [ 'Post', ],
     endpoints: builder => ({})
 })

@@ -3,13 +3,13 @@ import { Grid } from '@mui/material'
 import Status from './Status'
 import NoPostYet from '../../components/NoPostYet'
 import FeedsCard from './FeedsCard'
-import { selectAllPost } from './homePageSlice'
+import { selectPostIds } from './homePageSlice'
 import { useSelector } from 'react-redux'
 
 const Feeds = () => {
 
-    const allUserPost = useSelector(selectAllPost);
-    console.log(allUserPost);
+    const allUserPost = useSelector(selectPostIds);
+    
 
     return (
         <>
@@ -21,7 +21,7 @@ const Feeds = () => {
                     <Grid item xs={12}>
                         {
                             allUserPost.length === 0 ? ( <NoPostYet /> ):
-                            ( allUserPost.map((post) => <FeedsCard post={post} key={post._id} />) )
+                            ( allUserPost.map((postId) => <FeedsCard postId={postId} key={postId} />) )
                         }
                     </Grid>
                 </Grid>

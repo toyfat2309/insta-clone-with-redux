@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setImageState } from './postUploadSlice'
 import { userDetails } from '../homepage/homePageSlice';
 import { newPost } from './postUploadSlice';
+import SuccessSnackBack from '../../components/SuccessSnackBack';
 
 
 const SelectImage = () => {
@@ -17,6 +18,7 @@ const SelectImage = () => {
     const [caption, setpostCaption] = useState(''); // caption of post
     const [objectFit, setObjectFit] = useState('cover'); // image size 
     const [anchorEl, setAnchorEl] = useState(null); // state for changing image size from 1:1 / objectFit
+    const token = localStorage.token
     const open = Boolean(anchorEl);
 
     const currentUserDetails = useSelector(userDetails)
@@ -36,11 +38,17 @@ const SelectImage = () => {
 
     // function to create new post
     const createNewPost = async() => {
-        const date = new Date();
-        const isoDate = date.toISOString();
-        const uniqueId = currentUserDetails._id
-        const details = { postImage, caption, isoDate, objectFit,uniqueId }
-        dispatch(newPost(details))
+        try {
+            const date = new Date();
+            const isoDate = date.toISOString();
+            const uniqueId = currentUserDetails._id
+            const details = { postImage, caption, isoDate, objectFit,uniqueId,token }
+            const result = await dispatch(newPost(details)).unwrap();
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+       
     };
 
     const handleClick = (event) => {
@@ -118,7 +126,9 @@ const SelectImage = () => {
                     }
 
                 </Grid>
+                
             </Grid>
+            <SuccessSnackBack />
         </>
     )
 }

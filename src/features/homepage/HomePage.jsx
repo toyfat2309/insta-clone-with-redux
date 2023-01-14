@@ -5,25 +5,32 @@ import FriendSuggestion from './FriendSuggestion'
 import { Grid, Box } from '@mui/material'
 import Feeds from './Feeds'
 import ViewComments from '../viewcomments/ViewComments'
-import { useGetAllPostQuery } from './homePageSlice'
+import { useGetAllPostQuery, useLazyGetAllPostQuery } from './homePageSlice'
 import { extendedHomePageApiSlice } from './homePageSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { allPostResultData, friendSuggestion, userDetails } from './homePageSlice'
 import WhileLoading from '../../components/WhileLoading'
-
+import { reFresh } from '../viewcomments/viewCommentSlice'
 
 const HomePage = () => {
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const { isLoading, isSuccess, isError, error } = useGetAllPostQuery();
+    const [ getAllPost ] = useLazyGetAllPostQuery()
 
+    const x = useSelector(reFresh)
+
+    //console.log(error)
     useEffect(() => {
         try {
-            dispatch(extendedHomePageApiSlice.endpoints.getAllPost.initiate());
+            async function allPost () {
+                const post = await getAllPost().unwrap() 
+            }
+            allPost()
         } catch (error) {
-            console.log(error);
+            console.log(error?.status);
         }
-    }, [])
+    }, [x])
 
     let content;
 

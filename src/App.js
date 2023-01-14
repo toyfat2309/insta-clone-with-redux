@@ -9,19 +9,25 @@ import ActiveUserProfile from './features/userprofile/ActiveUserProfile';
 import Explore from './features/explore/Explore';
 import EditProfile from './features/updateprofile/EditProfile';
 import AllFriendSuggestion from './features/friendsuggestion/AllFriendSuggestion';
+import ProtectedRoute from './components/ProtectedRoute';
+
 
 function App() {
+
+  
   return (
     <>
-     <ModalToUploadPost />
-      <Routes>
-        <Route path='/'  element={ <Signin />}/>
-        <Route path='/feeds' element={<HomePage />}/>
-        <Route path='/profile' element={<ActiveUserProfile />}/>
-        <Route path='/signup'  element={ <Signup />}/>
-        <Route path='/explore'  element={ <Explore />}/>
-        <Route path='/editprofile'  element={ <EditProfile />}/>
-        <Route path='/friendsuggestion'  element={ <AllFriendSuggestion />}/>
+      <ModalToUploadPost />
+      <Routes >
+        <Route path='/' element={<Signin />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route element={<ProtectedRoute />} >
+          <Route path='/feeds' element={<HomePage />} />
+          <Route path='/profile' element={<ActiveUserProfile />} />
+          <Route path='/explore' element={<Explore />} />
+          <Route path='/editprofile' element={<EditProfile />} />
+          <Route path='/friendsuggestion' element={<AllFriendSuggestion />} />
+        </Route>
       </Routes>
     </>
   );

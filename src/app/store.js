@@ -11,7 +11,8 @@ const store = configureStore({
         viewComments: viewCommentSlice,
         userProfile: userProfileSlice,
     },
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware)
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),
+    devTools: true
 })
 
 export default store

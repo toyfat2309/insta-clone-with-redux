@@ -3,13 +3,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const FriendsExcerpt = ({friendSuggestion}) => {
-    console.log(friendSuggestion);
+    
     return (
         <>
             <Grid container>
                 <Grid item xs={2}>
                     <Link to='' style={{ textDecoration: 'none', color: '#262626' }}>
-                        <Avatar sx={{ width: '32px', height: '32px', backgroundColor: 'black' }} >{friendSuggestion.username.slice(0,1).toUpperCase()}</Avatar>
+                        <Avatar sx={{ width: '32px', height: '32px', backgroundColor: 'red' }} >{friendSuggestion.username.slice(0,1).toUpperCase()}</Avatar>
                     </Link>
                 </Grid>
                 <Grid item xs={10} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

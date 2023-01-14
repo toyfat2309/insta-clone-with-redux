@@ -11,7 +11,7 @@ const FriendSuggestion = () => {
     const LoggedInUserDetails = useSelector(userDetails);
     const homePageFriendSuggestion = useSelector(friendSuggestion);
     const filterFriend = homePageFriendSuggestion.filter((user) => user._id !== LoggedInUserDetails._id )
-    console.log(filterFriend.includes(LoggedInUserDetails._id));
+    
 
     return (
         <Grid item md={5.4} lg={4.5} sx={{ display: { xs: 'none', md: "flex" }, mt: 3, pl: 4 }}>

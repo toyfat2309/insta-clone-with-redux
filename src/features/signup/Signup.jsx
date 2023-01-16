@@ -7,7 +7,7 @@ import apple from '../../assets/apple.png';
 import andriod from '../../assets/andriod.png';
 import Footer from '../../components/Footer';
 import { useFormik } from 'formik';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import * as yup from 'yup'
 
@@ -15,11 +15,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const Signup = () => {
 
-    const url = `${process.env.REACT_APP_BASE_URL}users/signup` //url for post request
+    const url = 'http://localhost:4005/users/signup' //url for post request
 
-    //const navigate = useNavigate() //use navigate
+    const navigate = useNavigate() //use navigate
     const [message, setmessage] = useState('') // useState
-    //const [status, setstatus] = useState(false) // useState
+    const [status, setstatus] = useState(false) // useState
     const [isClicked, setIsClicked] = useState(false)
 
     useEffect(() => {
@@ -38,12 +38,12 @@ const Signup = () => {
             console.log(values);
             setIsClicked(true)
            axios.post(url,values).then((result)=>{
-               //setstatus(result.data.status)
-               //console.log(message);
+               setstatus(result.data.status)
+               console.log(message);
                if (result.data.status) {
                 setmessage(result.data.message)
                 setTimeout(()=>{
-                    //navigate('/')
+                    navigate('/')
                 },3000)
                }else{
                 setmessage(result.data.message)
@@ -108,7 +108,7 @@ const Signup = () => {
                                 }
                             </Box>
                             <Box>
-                                <Typography variant="body2" color="initial" sx={{color:'red',mb:{xs:0,sm:2}}}>
+                                <Typography variant="body2" color="initial" sx={{color:message==='Registration Successful'? 'green' : 'red',mb:{xs:0,sm:2}}}>
                                     {message}
                                 </Typography>
                             </Box>

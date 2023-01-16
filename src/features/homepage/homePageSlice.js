@@ -10,6 +10,7 @@ const initialState = allPostAdapter.getInitialState()
 
 export const extendedHomePageApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+
         getAllPost: builder.query({
             query: () => '/users/dashboard',
             transformResponse: (responseData) => {
@@ -20,6 +21,7 @@ export const extendedHomePageApiSlice = apiSlice.injectEndpoints({
                 { type: 'Post', id: 'LIST'}, ...result[0].ids.map(id => ({ type: 'Post', id: 'LIST'}))
             ]
         }),
+
         like: builder.mutation({
             query: ({postId, userId}) => ({
                 url: `/posts/like/${postId}`,
@@ -79,8 +81,10 @@ export const extendedHomePageApiSlice = apiSlice.injectEndpoints({
                 const patchResult = dispatch(
                     extendedHomePageApiSlice.util.updateQueryData('getAllPost', undefined, draft => {
                         const post = draft[0].entities[postId]
+                        const user = draft[2]
                         if (post) {
-                           post.savedPost.push(userId) 
+                           post.savedPost.push(userId)
+                           user.savedPost.push(postId)
                         }
                     })
                 )
@@ -117,12 +121,23 @@ export const extendedHomePageApiSlice = apiSlice.injectEndpoints({
                     patchResult.undo()
                 }
             }
+        }),
+
+        comment: builder.mutation({
+            query: (commentPayload) => ({
+                url: '/comments/comment',
+                method: 'POST',
+                body: {commentPayload}
+            }),
+            invalidatesTags: (result,error,arg) => [
+                {type:'Post', id: arg.id}
+            ]
         })
     })
 })
 
 
-export const { useGetAllPostQuery, useLazyGetAllPostQuery, useLikeMutation } = extendedHomePageApiSlice
+export const { useGetAllPostQuery, useLazyGetAllPostQuery, useLikeMutation, useCommentMutation } = extendedHomePageApiSlice
 
 export const allPostResult = extendedHomePageApiSlice.endpoints.getAllPost.select()
 

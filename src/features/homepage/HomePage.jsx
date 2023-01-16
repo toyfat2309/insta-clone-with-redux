@@ -24,7 +24,8 @@ const HomePage = () => {
     useEffect(() => {
         try {
             async function allPost () {
-                const post = await getAllPost().unwrap() 
+                const post = await getAllPost().unwrap()
+                console.log(post); 
             }
             allPost()
         } catch (error) {

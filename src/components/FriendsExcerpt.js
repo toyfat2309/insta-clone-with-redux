@@ -6,7 +6,7 @@ const FriendsExcerpt = ({friendSuggestion}) => {
     
     return (
         <>
-            <Grid container>
+            <Grid container sx={{mb:1.5}}>
                 <Grid item xs={2}>
                     <Link to='' style={{ textDecoration: 'none', color: '#262626' }}>
                         <Avatar sx={{ width: '32px', height: '32px', backgroundColor: 'red' }} >{friendSuggestion.username.slice(0,1).toUpperCase()}</Avatar>

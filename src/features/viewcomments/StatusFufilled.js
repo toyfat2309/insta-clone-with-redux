@@ -14,8 +14,12 @@ import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfi
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import FriendsSkeleton from '../../components/FriendsSkeleton';
 import CommentExcerpt from './CommentExcerpt';
+import { selectCommentIds } from './viewCommentApiSlice';
 
-const StatusFufilled = () => {
+
+const StatusFufilled = ({data}) => {
+
+   const { ids, entities} = data
 
     const [height, setHeight] = useState(window.innerHeight);
     const matches = useMediaQuery('(max-width:480px)');
@@ -23,7 +27,7 @@ const StatusFufilled = () => {
     const dispatch = useDispatch();
 
     const handleClose = () => {
-        dispatch(viewCommentModal(false));
+        dispatch(viewCommentModal({status:false,id:null}));
     }
 
     return (
@@ -64,7 +68,9 @@ const StatusFufilled = () => {
                                                 </Grid>
                                             </Grid>
                                             <Grid item xs={12}>
-                                                <CommentExcerpt />
+                                            { ids.map((id) =>(
+                                                    <CommentExcerpt entities={entities} id={id} />
+                                                ))}
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -106,7 +112,7 @@ const StatusFufilled = () => {
                             <Grid item xs={12} sx={{ height: '90vh !important', borderBottom: 1, borderColor: 'black', position: 'relative' }}>
                                 <Grid container sx={{}} >
                                     <Grid item xs={12} lg={8.2} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '44px !important', backgroundColor: "white", position: 'relative', pr: 2, pl: 2, borderBottom: 1, borderColor: 'gray', display: { xs: 'flex', sm: "none" }, zIndex: 1 }}>
-                                        <Link style={{ textDecoration: 'none', color: 'black', fontSize: 9, display: 'flex', justifyContent: 'left' }} to="/settings"><KeyboardBackspaceIcon sx={{ fontSize: '30px', fontWeight: 100, zIndex: 1 }} onClick={handleClose} /></Link>
+                                        <span style={{ textDecoration: 'none', color: 'black', fontSize: 9, display: 'flex', justifyContent: 'left' }} onClick={handleClose}><KeyboardBackspaceIcon sx={{ fontSize: '30px', fontWeight: 100, zIndex: 1 }}  /></span>
                                         <Box sx={{ display: "flex", alignItems: "center" }}>
                                             <b style={{ fontWeight: 600 }}>Comments</b>
                                         </Box>
@@ -130,7 +136,9 @@ const StatusFufilled = () => {
                                                 </Grid>
                                             </Grid>
                                             <Grid item xs={12}>
-                                                <CommentExcerpt />
+                                            { ids.map((id) =>(
+                                                    <CommentExcerpt entities={entities} id={id} />
+                                                ))}
                                             </Grid>
                                         </Grid>
                                     </Grid>

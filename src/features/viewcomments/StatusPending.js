@@ -16,7 +16,7 @@ const StatusPending = () => {
     const dispatch = useDispatch();
 
     const handleClose = () => {
-        dispatch(viewCommentModal(false));
+        dispatch(viewCommentModal({status:false,id:null}));
     }
 
     return (
@@ -61,7 +61,7 @@ const StatusPending = () => {
                             <Grid item xs={12} sm={6} sx={{ height: '90vh', position: 'relative', }}>
                                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', height: '44px !important', backgroundColor: "white", position: 'relative', top: 0, pr: 2, pl: 2, borderBottom: 1, borderColor: 'gray', display: { xs: 'flex', sm: "none" }, zIndex: 1 }}>
                                     <Grid item xs={12} lg={8.2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                        <NavLink style={{ textDecoration: 'none', color: 'black', fontSize: 9, display: 'flex', justifyContent: 'left' }} to="/settings"><KeyboardBackspaceIcon sx={{ fontSize: '30px', fontWeight: 100, zIndex: 1 }} onClick={handleClose} /></NavLink>
+                                        <span style={{ textDecoration: 'none', color: 'black', fontSize: 9, display: 'flex', justifyContent: 'left' }} onClick={handleClose}><KeyboardBackspaceIcon sx={{ fontSize: '30px', fontWeight: 100, zIndex: 1 }} onClick={handleClose} /></span>
                                         <Box sx={{ display: "flex", alignItems: "center" }}>
                                             <b style={{ fontWeight: 600 }}>Comments</b>
                                         </Box>

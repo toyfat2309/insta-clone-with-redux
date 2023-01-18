@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     open: false,
-    reFetchPost: null
+    reFetchPost: null,
+    postId: null
 }
 
 const viewCommentSlice = createSlice({
@@ -10,7 +11,9 @@ const viewCommentSlice = createSlice({
     initialState,
     reducers: {
         viewCommentModal : (state,action) => {
-           state.open = action.payload
+            
+           state.open = action.payload.status
+           state.postId = action.payload.id
            if (action.payload === false) {
              state.reFetchPost = true
            }

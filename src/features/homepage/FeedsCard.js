@@ -16,12 +16,14 @@ import { useCommentMutation } from './homePageSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { extendedViewCommentApiSlice } from '../viewcomments/viewCommentApiSlice';
+import { useLazyViewCommentsQuery } from '../viewcomments/viewCommentApiSlice';
 
 const FeedsCard = ({ postId }) => {
 
 
     const spinnerRef = useRef({})
     const { isLoading, isSuccess, isError, error } = useCommentMutation();
+    const [trigger] = useLazyViewCommentsQuery();
     const [userInput, setUserInput] = useState('')
     const post = useSelector((state) => selectPostById(state, postId))
     const LoggedInUserDetails = useSelector(userDetails);
@@ -29,7 +31,8 @@ const FeedsCard = ({ postId }) => {
 
     const handleOpen = async(id) => {
         const {postId} = id
-        dispatch(viewCommentModal(true))
+        dispatch(viewCommentModal({status:true,id:postId}))
+        //trigger(postId)
         // const comment = await dispatch(extendedViewCommentApiSlice.endpoints.viewComments.initiate(postId)).unwrap()
         // console.log(comment)
     }

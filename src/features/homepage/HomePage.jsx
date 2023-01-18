@@ -8,9 +8,8 @@ import ViewComments from '../viewcomments/ViewComments'
 import { useGetAllPostQuery, useLazyGetAllPostQuery } from './homePageSlice'
 import { extendedHomePageApiSlice } from './homePageSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { allPostResultData, friendSuggestion, userDetails } from './homePageSlice'
 import WhileLoading from '../../components/WhileLoading'
-import { reFresh } from '../viewcomments/viewCommentSlice'
+
 
 const HomePage = () => {
 
@@ -18,9 +17,7 @@ const HomePage = () => {
     const { isLoading, isSuccess, isError, error } = useGetAllPostQuery();
     const [ getAllPost ] = useLazyGetAllPostQuery()
 
-    const x = useSelector(reFresh)
-
-    //console.log(error)
+   
     useEffect(() => {
         try {
             async function allPost () {
@@ -31,7 +28,7 @@ const HomePage = () => {
         } catch (error) {
             console.log(error?.status);
         }
-    }, [x])
+    }, [])
 
     let content;
 

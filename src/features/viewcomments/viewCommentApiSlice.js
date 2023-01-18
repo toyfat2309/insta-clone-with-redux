@@ -2,7 +2,7 @@ import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { apiSlice } from "../api/apiSlice";
 
 const viewCommentAdapter = createEntityAdapter({
-
+    selectId: (comment) => comment._id,
 })
 
 const initialState = viewCommentAdapter.getInitialState()
@@ -10,15 +10,29 @@ const initialState = viewCommentAdapter.getInitialState()
 export const extendedViewCommentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         viewComments: builder.query({
-            query: ({postId}) => `/comments/viewcomment/${postId}`,
+            query: (postId) => `/comments/viewcomment/${postId}`,
             transformResponse: (responseData) => {
                 console.log(responseData);
-            }, 
-            providesTags: [{type:'Comment'}]
+                const result = viewCommentAdapter.setAll(initialState,responseData.commentTB)
+                return result
+            },
+            providesTags: (result, error, arg) => {
+                 return [...result.ids.map(id => ({ type: 'Comment', id: 'LIST'}))]
+            }
         })
     })
 })
 
-export const { useViewCommentsQuery } = extendedViewCommentApiSlice
+export const { useViewCommentsQuery, useLazyViewCommentsQuery } = extendedViewCommentApiSlice
 
-export const commentResult = extendedViewCommentApiSlice.endpoints.getAllPost.select()
+export const currentPost = extendedViewCommentApiSlice.endpoints.viewComments.select()
+
+export const allComment =  createSelector(
+    currentPost, comment => comment.data
+)
+
+export const {
+    selectAll: selectAllComment,
+    selectByIds: selectCommentById,
+    selectIds: selectCommentIds
+} = viewCommentAdapter.getSelectors(state => allComment(state) ?? initialState)

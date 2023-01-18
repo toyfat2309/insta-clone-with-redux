@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import { Box, Typography, Button, Grid, TextField, } from '@mui/material';
 import { commentModalState, viewCommentModal } from './viewCommentSlice';
@@ -6,8 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import StatusPending from './StatusPending';
 import CloseIcon from '@mui/icons-material/Close';
 import StatusFufilled from './StatusFufilled';
-import { useViewCommentsQuery } from './viewCommentApiSlice';
-import { SkipToken } from '@reduxjs/toolkit/dist/query';
+import { useViewCommentsQuery, useLazyViewCommentsQuery } from './viewCommentApiSlice';
+import { apiSlice } from '../api/apiSlice';
+import { currentPost } from './viewCommentApiSlice';
+import { allComment } from './viewCommentApiSlice';
 
 const style = {
     position: 'absolute',
@@ -20,21 +22,33 @@ const style = {
 
 const CommentModal = () => {
 
+
     const open = useSelector(commentModalState);
+    const postId = useSelector((state) => state.viewComments.postId);
+
     const dispatch = useDispatch();
 
-    const { isLoading, isSuccess, isError, error } = useViewCommentsQuery({postId:'63c10a2f80f5551c12b33013'},{skip: open === false})
+    const { data,isFetching, isSuccess, isError, error, refetch } = useViewCommentsQuery(postId,{skip:open === false})
+
+    useEffect(() => {
+        if (open) {
+            refetch()
+        }
+    },[open])
 
     const handleClose = () => {
-        dispatch(viewCommentModal(false));
+        dispatch(viewCommentModal({status:false,id:null}));
+        //refetch()
+        //dispatch(apiSlice.util.invalidateTags(['Comment']))
     }
 
     let content;
 
-    if (isLoading) {
+    if (isFetching) {
         content = <StatusPending />
     } else if (isSuccess) {
-        content = <StatusFufilled />
+        
+        content = <StatusFufilled data={data}/>
     }else if(isError){
         content = <h1>network issue</h1>
     }

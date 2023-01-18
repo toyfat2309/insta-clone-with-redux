@@ -2,7 +2,7 @@ import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../api/apiSlice";
 
 const allPostAdapter = createEntityAdapter({
-    selectId: (allPost) => allPost._id,
+    selectId: (post) => post._id,
 })
 
 const initialState = allPostAdapter.getInitialState()
